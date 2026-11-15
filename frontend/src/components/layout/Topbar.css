@@ -1,188 +1,258 @@
-.top-avatar {
-  display: grid;
-  place-items: center;
-  background: #314b70;
-  color: #dceaff;
-  font-weight: 700;
-  border-radius: 8px;
-  width: 31px;
-  height: 31px;
-  font-size: 11px;
-  flex-shrink: 0;
-}
 
-.top-avatar {
-  border-radius: 50%;
-  background: #d9e8ff;
-  color: #31527d;
-}
+/* =========================================
+   TRADEALERT TOPBAR
+========================================= */
 
 .topbar {
-  height: 72px;
-  background: white;
-  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 39px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+
+  width: 100%;
+  min-height: 72px;
+  padding: 0 28px;
+
+  background: #ffffff;
+  border-bottom: 1px solid #e8edf3;
 }
 
-.breadcrumb {
+/* Clock */
+
+.topbar-clock {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.clock-time {
+  color: #17212f;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.clock-date {
+  color: #8491a3;
   font-size: 11px;
-  color: #8a96a8;
+  font-weight: 500;
 }
 
-.breadcrumb span {
-  padding: 0 9px;
-  color: #c0c8d3;
-}
+/* Actions */
 
-.breadcrumb b {
-  color: #344257;
-}
-
-.top-actions {
+.topbar-actions {
   display: flex;
   align-items: center;
-  gap: 13px;
+  justify-content: flex-end;
+  gap: 11px;
 }
+
+/* Connection */
 
 .connection-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 10px;
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: 700;
-}
+  gap: 8px;
 
-.connection-pill.demo {
-  background: #fff7e8;
-  color: #a66a0a;
+  min-height: 33px;
+  padding: 0 11px;
+
+  background: #f8fafc;
+  border: 1px solid #e8edf3;
+  border-radius: 7px;
+
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .connection-dot {
   width: 7px;
   height: 7px;
+  flex-shrink: 0;
   border-radius: 50%;
-  background: #e5a333;
+  background: #94a3b8;
 }
 
-.icon-button {
-  width: 34px;
-  height: 34px;
-  border: 0;
+.connection-pill.live {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #dcfce7;
+}
+
+.connection-pill.live .connection-dot {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+}
+
+.connection-pill.offline {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fee2e2;
+}
+
+.connection-pill.offline .connection-dot {
+  background: #ef4444;
+}
+
+.connection-pill.checking {
+  color: #a16207;
+  background: #fffbeb;
+  border-color: #fef3c7;
+}
+
+.connection-pill.checking .connection-dot {
+  background: #eab308;
+}
+
+/* Icon buttons */
+
+.icon-button,
+.profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+
+  color: #64748b;
+  background: #ffffff;
+  border: 1px solid #e8edf3;
   border-radius: 8px;
-  background: transparent;
-  color: #738096;
-  display: grid;
-  place-items: center;
+
+  cursor: pointer;
+  transition: all 0.18s ease;
 }
 
-.icon-button:hover {
-  background: #f0f3f8;
-  color: #283b56;
+.icon-button:hover:not(:disabled),
+.profile-button:hover {
+  color: #2563eb;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
-.top-avatar {
-  width: 32px;
-  height: 32px;
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
+
+.icon-button:focus-visible,
+.profile-button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Profile */
+
+.profile-button {
+  width: 38px;
+  height: 38px;
+  color: #334155;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  border-radius: 50%;
+}
+
+.topbar-divider {
+  width: 1px;
+  height: 27px;
+  background: #e8edf3;
+  margin: 0 2px;
+}
+
+/* Refresh */
+
+.spin {
+  animation: refresh-spin 0.9s linear infinite;
+}
+
+@keyframes refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile */
 
 .mobile-menu {
   display: none;
 }
 
-.spin {
-  animation: spin 1s linear infinite;
-}
-
-@media (max-width: 1150px) {
-
+@media (max-width: 768px) {
   .topbar {
-    padding: 0 25px;
-  }
-}
-
-@media (max-width: 760px) {
-
-  .topbar {
-    height: 62px;
+    min-height: 64px;
     padding: 0 16px;
   }
-}
-
-@media (max-width: 760px) {
-
-  .top-left {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-  }
-}
-
-@media (max-width: 760px) {
 
   .mobile-menu {
-    display: grid;
+    display: flex;
   }
-}
 
-@media (max-width: 760px) {
-
-  .top-actions {
-    gap: 7px;
+  .topbar-actions {
+    gap: 8px;
   }
-}
 
-@media (max-width: 760px) {
+  .clock-time {
+    font-size: 15px;
+  }
+
+  .clock-date {
+    font-size: 10px;
+  }
 
   .connection-pill {
-    font-size: 8px;
-    padding: 6px 8px;
+    min-height: 30px;
+    padding: 0 8px;
+    font-size: 10px;
   }
-}
 
-@media (max-width: 390px) {
-
-  .top-avatar {
+  .topbar-divider {
     display: none;
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 420px) {
+  .topbar {
+    padding: 0 10px;
+  }
 
-  .breadcrumb {
-    font-size: 10px;
+  .topbar-actions {
+    gap: 6px;
+  }
+
+  .connection-pill {
+    gap: 5px;
+    padding: 0 6px;
+  }
+
+  .clock-date {
+    max-width: 125px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .profile-button {
+    width: 34px;
+    height: 34px;
   }
 }
-.connection-pill.live {
-    background: #e8f7ee;
-    color: #16794a;
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
   }
-  
-  .connection-pill.live .connection-dot {
-    background: #16a34a;
+
+  .icon-button,
+  .profile-button {
+    transition: none;
   }
-  
-  .connection-pill.offline {
-    background: #fff0f0;
-    color: #b42318;
-  }
-  
-  .connection-pill.offline .connection-dot {
-    background: #dc2626;
-  }
-  
-  .connection-pill.checking {
-    background: #f1f5f9;
-    color: #64748b;
-  }
-  
-  .connection-pill.checking .connection-dot {
-    background: #94a3b8;
-  }
+}

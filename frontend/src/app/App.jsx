@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+import {
   LayoutDashboard,
   Activity,
   BriefcaseBusiness,
   Layers3,
   Send,
   Settings,
-  RefreshCw,
 } from "lucide-react";
 
 import Sidebar from "../components/layout/Sidebar";
@@ -18,6 +26,7 @@ import PositionsPage from "../pages/positions/PositionsPage";
 import StrategiesPage from "../pages/strategies/StrategiesPage";
 import NotificationsPage from "../pages/notifications/NotificationsPage";
 import SettingsPage from "../pages/settings/SettingsPage";
+import ProfilePage from "../pages/profile/ProfilePage";
 
 import { fetchDashboard } from "../services/api/dashboard";
 import { BASE_URL } from "../services/api/client";
@@ -32,22 +41,21 @@ const navigation = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const pages = {
-  overview: OverviewPage,
-  signals: SignalsPage,
-  positions: PositionsPage,
-  strategies: StrategiesPage,
-  notifications: NotificationsPage,
-  settings: SettingsPage,
-};
+function AppLayout() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export default function App() {
-  const [activePage, setActivePage] = useState("overview");
   const [dashboard, setDashboard] = useState(mockDashboard);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [apiStatus, setApiStatus] = useState("checking");
+
+  const activePage = location.pathname.split("/")[1] || "overview";
+
+  function navigateToPage(id) {
+    navigate(id === "overview" ? "/" : `/${id}`);
+  }
 
   async function refreshDashboard() {
     setLoading(true);
@@ -63,7 +71,7 @@ export default function App() {
     }
   }
 
-  // Check backend health independently of dashboard data.
+  // Backend health check
   useEffect(() => {
     let mounted = true;
 
@@ -99,28 +107,33 @@ export default function App() {
     };
   }, []);
 
+  // Initial dashboard fetch
   useEffect(() => {
     refreshDashboard();
   }, []);
 
-  const CurrentPage = pages[activePage];
-  const activeNavigation = navigation.find((item) => item.id === activePage);
+  const pageProps = {
+    dashboard,
+    refreshDashboard,
+    loading,
+    apiStatus,
+  };
 
   return (
     <div className="app-shell">
       <Sidebar
         navigation={navigation}
         activePage={activePage}
-        setActivePage={setActivePage}
+        setActivePage={navigateToPage}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
 
       <div className="main-area">
         <Topbar
-          title={activeNavigation?.label || "Overview"}
           onMenuClick={() => setSidebarOpen(true)}
           onRefresh={refreshDashboard}
+          onProfileClick={() => navigate("/profile")}
           loading={loading}
           apiStatus={apiStatus}
         />
@@ -129,17 +142,37 @@ export default function App() {
           {error && (
             <div className="notice">
               <span>{error}. Showing available dashboard data.</span>
-              <button onClick={refreshDashboard}>
-                <RefreshCw size={14} />
-              </button>
+
+              <button onClick={refreshDashboard}>Refresh</button>
             </div>
           )}
 
-          <CurrentPage
-            dashboard={dashboard}
-            refreshDashboard={refreshDashboard}
-            loading={loading}
-          />
+          <Routes>
+            <Route path="/" element={<OverviewPage {...pageProps} />} />
+
+            <Route path="/signals" element={<SignalsPage {...pageProps} />} />
+
+            <Route
+              path="/positions"
+              element={<PositionsPage {...pageProps} />}
+            />
+
+            <Route
+              path="/strategies"
+              element={<StrategiesPage {...pageProps} />}
+            />
+
+            <Route
+              path="/notifications"
+              element={<NotificationsPage {...pageProps} />}
+            />
+
+            <Route path="/settings" element={<SettingsPage {...pageProps} />} />
+
+            <Route path="/profile" element={<ProfilePage {...pageProps} />} />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </main>
 
         <footer className="footer">
@@ -148,5 +181,13 @@ export default function App() {
         </footer>
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
   );
 }
