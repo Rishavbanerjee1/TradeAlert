@@ -1,0 +1,145 @@
+.settings-title h2 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #25344a;
+  margin: 0;
+}
+
+.settings-title p {
+  font-size: 9px;
+  color: #98a2b0;
+  margin: 5px 0 0;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.settings-card {
+  padding: 19px;
+}
+
+.settings-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 17px;
+}
+
+.settings-title > div:nth-child(2) {
+  flex: 1;
+}
+
+.settings-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #edf4ff;
+  color: #5485d1;
+  display: grid;
+  place-items: center;
+}
+
+.settings-icon.telegram {
+  background: #e9f5ff;
+  color: #3995c8;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #eff1f5;
+}
+
+.setting-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.setting-row b {
+  font-size: 10px;
+  color: #405068;
+}
+
+.setting-row small {
+  font-size: 8px;
+  color: #9ba5b3;
+}
+
+.setting-row code {
+  font-size: 9px;
+  color: #58759c;
+  background: #f5f7fa;
+  padding: 5px 7px;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+
+.setting-value {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  color: #3776d1;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.plain-value {
+  font-size: 10px;
+  color: #45566d;
+  font-weight: 600;
+}
+
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  background: #f0f6ff;
+  border-radius: 7px;
+  padding: 11px;
+  color: #54739d;
+  font-size: 9px;
+  line-height: 1.6;
+  margin-bottom: 11px;
+}
+
+.info-box svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 760px) {
+
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 390px) {
+
+  .setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 390px) {
+
+  .setting-value {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}

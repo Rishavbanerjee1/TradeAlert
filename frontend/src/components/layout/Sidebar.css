@@ -1,0 +1,293 @@
+.sidebar {
+  width: 252px;
+  background: var(--color-sidebar);
+  color: #d7dfeb;
+  position: fixed;
+  inset: 0 auto 0 0;
+  padding: 25px 17px 16px;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 8px 32px;
+}
+
+.brand-mark {
+  width: 37px;
+  height: 37px;
+  border-radius: 11px;
+  background: #3b82f6;
+  color: white;
+  display: grid;
+  place-items: center;
+}
+
+.brand-name {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: white;
+}
+
+.brand-name span {
+  color: #72a7ff;
+}
+
+.brand-caption {
+  font-size: 8px;
+  letter-spacing: 1.4px;
+  color: #8291a8;
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+.workspace-label {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  color: #75849a;
+  font-weight: 700;
+  padding: 0 9px 10px;
+}
+
+.nav-label {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  color: #75849a;
+  font-weight: 700;
+  padding: 0 9px 10px;
+}
+
+.workspace-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 9px;
+  border: 1px solid #29374b;
+  background: #172438;
+  border-radius: 9px;
+  margin-bottom: 29px;
+  color: #8190a5;
+  text-align: left;
+}
+
+.workspace-avatar {
+  display: grid;
+  place-items: center;
+  background: #314b70;
+  color: #dceaff;
+  font-weight: 700;
+  border-radius: 8px;
+  width: 31px;
+  height: 31px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  background: #314b70;
+  color: #dceaff;
+  font-weight: 700;
+  border-radius: 8px;
+  width: 31px;
+  height: 31px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.workspace-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.profile-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.workspace-copy b {
+  font-size: 11px;
+  color: #f4f7fb;
+}
+
+.profile-copy b {
+  font-size: 11px;
+  color: #f4f7fb;
+}
+
+.workspace-copy span {
+  font-size: 9px;
+  color: #91a0b5;
+}
+
+.profile-copy span {
+  font-size: 9px;
+  color: #91a0b5;
+}
+
+.nav-list {
+  display: grid;
+  gap: 5px;
+}
+
+.nav-item {
+  height: 42px;
+  border: 0;
+  background: transparent;
+  color: #9ba9bc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 11px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.nav-item:hover {
+  background: #1a2a40;
+  color: white;
+}
+
+.nav-item.active {
+  background: #213b60;
+  color: white;
+  box-shadow: inset 3px 0 #5a9bff;
+}
+
+.nav-item.active svg {
+  color: #7db1ff;
+}
+
+.nav-item span {
+  flex: 1;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.sidebar-info {
+  background: linear-gradient(145deg, #1b3150, #17253a);
+  border: 1px solid #2b4566;
+  border-radius: 11px;
+  padding: 14px;
+  margin-bottom: 17px;
+}
+
+.sidebar-info-icon {
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  background: #315b8b;
+  color: #a9d0ff;
+  display: grid;
+  place-items: center;
+  margin-bottom: 10px;
+}
+
+.sidebar-info b {
+  font-size: 11px;
+  color: #f4f8ff;
+}
+
+.sidebar-info p {
+  font-size: 10px;
+  line-height: 1.55;
+  color: #9eafc5;
+  margin: 6px 0 11px;
+}
+
+.sidebar-info button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #80b6ff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.profile {
+  border-top: 1px solid #29364a;
+  padding: 16px 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.profile-avatar {
+  border-radius: 50%;
+  background: #d9e8ff;
+  color: #31527d;
+}
+
+.sidebar-close {
+  display: none;
+}
+
+.mobile-scrim {
+  display: none;
+}
+
+@media (max-width: 1150px) {
+  .sidebar {
+    width: 225px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    width: 265px;
+  }
+}
+
+@media (max-width: 760px) {
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 760px) {
+
+  .mobile-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: #0b1525a8;
+    border: 0;
+    z-index: 15;
+  }
+}
+
+@media (max-width: 760px) {
+
+  .sidebar-close {
+    display: grid;
+    margin-left: auto;
+    color: #aab8ca;
+    background: transparent;
+    border: 0;
+  }
+}
+
+@media (max-width: 760px) {
+
+  .profile {
+    margin-top: 15px;
+  }
+}

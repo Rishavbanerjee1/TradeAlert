@@ -1,0 +1,263 @@
+.notification-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.8fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.notification-composer {
+  padding: 20px;
+}
+
+.message-type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.message-type {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid #e6ebf2;
+  border-radius: 9px;
+  background: white;
+  text-align: left;
+  color: #75849a;
+}
+
+.message-type.active {
+  border-color: #8bb5f7;
+  background: #f3f7ff;
+  color: #286fe8;
+}
+
+.message-type span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message-type b {
+  font-size: 10px;
+  color: #34445a;
+}
+
+.message-type small {
+  font-size: 9px;
+  color: #8995a5;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #45546a;
+}
+
+.form-field input {
+  width: 100%;
+  border: 1px solid #e3e8ef;
+  border-radius: 7px;
+  padding: 11px 12px;
+  font-size: 11px;
+  color: #34445a;
+  background: white;
+  outline: none;
+}
+
+.form-field textarea {
+  width: 100%;
+  border: 1px solid #e3e8ef;
+  border-radius: 7px;
+  padding: 11px 12px;
+  font-size: 11px;
+  color: #34445a;
+  background: white;
+  outline: none;
+}
+
+.form-field select {
+  width: 100%;
+  border: 1px solid #e3e8ef;
+  border-radius: 7px;
+  padding: 11px 12px;
+  font-size: 11px;
+  color: #34445a;
+  background: white;
+  outline: none;
+}
+
+.form-field input:focus {
+  border-color: #8bb5f7;
+  box-shadow: 0 0 0 3px #286fe812;
+}
+
+.form-field textarea:focus {
+  border-color: #8bb5f7;
+  box-shadow: 0 0 0 3px #286fe812;
+}
+
+.form-field select:focus {
+  border-color: #8bb5f7;
+  box-shadow: 0 0 0 3px #286fe812;
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 125px;
+  line-height: 1.6;
+}
+
+.form-field input::placeholder {
+  color: #aab3bf;
+}
+
+.form-field textarea::placeholder {
+  color: #aab3bf;
+}
+
+.field-hint {
+  text-align: right;
+  font-size: 9px;
+  color: #9ba5b3;
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.send-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  border-radius: 7px;
+  padding: 11px;
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.send-result.sent {
+  background: #eaf8f0;
+  color: #258451;
+}
+
+.send-result.demo {
+  background: #fff7e8;
+  color: #956313;
+}
+
+.send-result.failed {
+  background: #fff0ef;
+  color: #c4534c;
+}
+
+.send-result.unknown {
+  background: #fff0ef;
+  color: #c4534c;
+}
+
+.send-result svg {
+  flex-shrink: 0;
+}
+
+.preview-panel {
+  padding: 19px;
+}
+
+.telegram-preview {
+  background: #edf3f8;
+  border-radius: 9px;
+  padding: 13px;
+}
+
+.telegram-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+}
+
+.telegram-avatar {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background: #299bd3;
+  color: white;
+  display: grid;
+  place-items: center;
+}
+
+.telegram-preview-header div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.telegram-preview-header b {
+  font-size: 10px;
+  color: #34445a;
+}
+
+.telegram-preview-header small {
+  font-size: 8px;
+  color: #8794a5;
+}
+
+.telegram-message {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: white;
+  color: #34445a;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 11px;
+  line-height: 1.7;
+  min-height: 90px;
+}
+
+.preview-badges {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.preview-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #75849a;
+  font-size: 9px;
+  line-height: 1.6;
+  margin-top: 15px;
+}
+
+.preview-note svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1150px) {
+
+  .notification-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+
+  .message-type-selector {
+    grid-template-columns: 1fr;
+  }
+}
