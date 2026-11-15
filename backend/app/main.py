@@ -12,8 +12,14 @@ from sqlalchemy.orm import Session
 
 from .config import settings
 from .db import Base, engine, get_db
-from .models import Position, Signal, utcnow
-from .schemas import PositionOut, SignalOut, TVPayload
+from .models import Position, Signal, NotificationLog, utcnow
+from .schemas import (
+    PositionOut,
+    SignalOut,
+    TVPayload,
+    ManualNotificationIn,
+    NotificationOut,
+)
 from .telegram import send_telegram
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -128,7 +134,11 @@ async def tradingview_webhook(request: Request, db: Session = Depends(get_db)):
     db.commit()  # save state BEFORE notifying, so a Telegram failure never loses the signal
 
     if text:
-        sig.notified = await send_telegram(text)
+        delivery_status = await send_telegram(text)
+
+        # Only mark as notified when Telegram confirms delivery.
+        sig.notified = delivery_status == "sent"
+
         db.commit()
 
     return {"status": "ok", "outcome": outcome, "notified": sig.notified}
@@ -144,6 +154,82 @@ def list_signals(limit: int = 50, db: Session = Depends(get_db)):
 def list_positions(db: Session = Depends(get_db)):
     return db.scalars(select(Position).order_by(Position.symbol)).all()
 
+@app.post("/api/notifications/send")
+async def send_manual_notification(
+    payload: ManualNotificationIn,
+    x_webhook_secret: str = Header(default=""),
+    db: Session = Depends(get_db),
+):
+    _check_secret(x_webhook_secret)
+
+    if payload.type == "custom":
+        text = html.escape(payload.message.strip())
+    else:
+        symbol = html.escape(payload.symbol.upper())
+        strategy = html.escape(payload.strategy or "Manual alert")
+
+        emoji = {
+            "BUY": "🟢",
+            "HOLD": "🟡",
+            "SELL": "🔴",
+        }[payload.action]
+
+        text = (
+            f"{emoji} <b>{payload.action}</b>\n"
+            f"Symbol: {symbol}\n"
+            f"Price: {_fmt(payload.price)}\n"
+            f"Strategy: {strategy}\n"
+            "\n<i>Manual alert via TradeAlert</i>"
+        )
+
+    delivery_status = await send_telegram(text)
+
+    notification = NotificationLog(
+        type=payload.type,
+        message=text,
+        action=payload.action if payload.type == "signal" else None,
+        symbol=payload.symbol.upper() if payload.symbol else None,
+        price=payload.price,
+        strategy=payload.strategy if payload.type == "signal" else None,
+        status=delivery_status,
+    )
+
+    db.add(notification)
+    db.commit()
+    db.refresh(notification)
+
+    return {
+        "status": delivery_status,
+        "message": (
+            "Telegram message sent."
+            if delivery_status == "sent"
+            else (
+                "Demo mode. Message was not delivered."
+                if delivery_status == "demo"
+                else "Telegram delivery failed."
+            )
+        ),
+        "notification": NotificationOut.model_validate(notification),
+    }
+
+@app.get(
+    "/api/notifications/history",
+    response_model=list[NotificationOut],
+)
+def get_notification_history(
+    limit: int = 100,
+    x_webhook_secret: str = Header(default=""),
+    db: Session = Depends(get_db),
+):
+    _check_secret(x_webhook_secret)
+
+    limit = max(1, min(limit, 500))
+
+    return db.scalars(
+        select(NotificationLog)
+        .order_by(NotificationLog.created_at.desc())
+        .limit(limit)
+    ).all()
 
 @app.post("/api/summary")
 async def send_hold_summary(
@@ -167,5 +253,10 @@ async def send_hold_summary(
                 f"entry {_fmt(h.entry_price)}, last {_fmt(h.last_price)}, {pnl:+.2f}%"
             )
         text = "\n".join(lines)
-    ok = await send_telegram(text)
-    return {"status": "ok", "notified": ok, "open_positions": len(holding)}
+    delivery_status = await send_telegram(text)
+
+    return {
+        "status": delivery_status,
+        "notified": delivery_status == "sent",
+        "open_positions": len(holding),
+    }
